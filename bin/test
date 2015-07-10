@@ -23,7 +23,10 @@ check_for_data_race() {
     $command > /tmp/tmp.log 2>&1 &
     pid=$!
     sleep 2s
-    kill $pid || sh -c 'cat /tmp/tmp.log && false'
+    if ps -p $pid > /dev/null
+    then
+      kill $pid || sh -c 'cat /tmp/tmp.log && false'
+    fi
     sleep 2s
 
     set +e
